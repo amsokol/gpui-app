@@ -39,6 +39,16 @@ gsettings reset org.gnome.desktop.interface cursor-size
 
 This setting affects every Wayland app in the WSL distro, not just this one.
 
+### Dark theme
+
+The app follows the system light/dark setting and switches live. In WSL, set it with:
+
+```sh
+gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
+```
+
+Use `'default'` to go back to light. This affects every GTK/Wayland app in the distro.
+
 ### Don't use the X11 backend to work around it
 
 Running with `WAYLAND_DISPLAY=` gives a normal cursor, but WSLg's X11 windows

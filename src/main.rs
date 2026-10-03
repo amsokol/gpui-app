@@ -1,5 +1,5 @@
 use gpui_kit::component::{
-    ActiveTheme as _, IconName, Sizable as _, TitleBar, WindowExt as _, v_flex,
+    ActiveTheme as _, IconName, Sizable as _, Theme, TitleBar, WindowExt as _, v_flex,
     button::{Button, ButtonVariants as _},
     input::{Input, InputEvent, InputState},
     switch::Switch,
@@ -29,12 +29,20 @@ impl App {
             }
         });
 
+
+        // Follow the system light/dark setting, now and whenever it changes.
+        Theme::sync_system_appearance(Some(window), cx);
+        let appearance = cx.observe_window_appearance(window, |_, window, cx| {
+            Theme::sync_system_appearance(Some(window), cx);
+            cx.notify();
+        });
+
         Self {
             name,
             greeting: "".into(),
             count: 0,
             shout: false,
-            _subscriptions: vec![subscription],
+            _subscriptions: vec![subscription, appearance],
         }
     }
 
