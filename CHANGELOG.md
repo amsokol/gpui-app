@@ -22,6 +22,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - No flash of the wrong theme at startup on Linux: Wayland reports the system light/dark mode only
   after startup, so the window is opened once the mode is known (waits up to 100 ms), and later
   system events are applied after a short pause because GPUI first reports a bogus "light".
+- `release` profile with full optimization (`opt-level = 3`, fat LTO, one codegen unit, stripped
+  symbols) and a statically linked C runtime on Windows (MSVC).
 - README with run instructions, the `libxkbcommon-x11-dev` build dependency, and WSL notes
   (oversized mouse cursor at 200% display scaling and how to fix it).
 - gpui-kit agent skills (`gpui-kit`, `gpui-kit-design-guides`) installed in `.agents/skills/`

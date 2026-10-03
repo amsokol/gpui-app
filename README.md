@@ -8,6 +8,20 @@ A simple desktop app built with [gpui-kit](https://github.com/longbridge/gpui-ki
 cargo run
 ```
 
+### Release build
+
+```sh
+cargo build --release
+```
+
+The `release` profile uses full optimization (`opt-level = 3`, fat LTO, one codegen unit) and strips
+symbols: about 31 MB instead of 700 MB for a debug build, and about 4 minutes to build.
+
+On Windows (MSVC) the C runtime is linked statically (`.cargo/config.toml`), so the `.exe` needs no
+Visual C++ Redistributable. On Linux the binary is dynamically linked against glibc, xcb and
+xkbcommon, which every desktop distribution has. A fully static Linux binary (musl) is not possible:
+GPUI loads Vulkan, Wayland and font libraries at run time.
+
 ### Linux build dependencies
 
 Linking needs the X11 xkbcommon development files. On Debian/Ubuntu:
