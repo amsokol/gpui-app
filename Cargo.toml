@@ -1,0 +1,8 @@
+[package]
+name = "gpui-app"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.99.0"
+
+[dependencies]
+gpui-kit = "0.7.0"
