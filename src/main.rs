@@ -1,5 +1,5 @@
 use gpui_kit::component::{
-    ActiveTheme as _, IconName, Sizable as _, Theme, TitleBar, WindowExt as _, v_flex,
+    ActiveTheme as _, IconName, Sizable as _, Theme, ThemeRegistry, TitleBar, WindowExt as _, v_flex,
     button::{Button, ButtonVariants as _},
     input::{Input, InputEvent, InputState},
     switch::Switch,
@@ -8,6 +8,8 @@ use gpui_kit::{
     AppContext as _, Context, Entity, IntoElement, ParentElement as _, Render, SharedString,
     Styled as _, Subscription, TitlebarOptions, Window, WindowOptions, div,
 };
+
+const MACOS_CLASSIC_THEMES: &str = include_str!("../themes/macos-classic.json");
 
 const TITLE: &str = "GPUI Kit App";
 
@@ -31,9 +33,9 @@ impl App {
 
 
         // Follow the system light/dark setting, now and whenever it changes.
-        Theme::sync_system_appearance(Some(window), cx);
+        apply_system_theme(window, cx);
         let appearance = cx.observe_window_appearance(window, |_, window, cx| {
-            Theme::sync_system_appearance(Some(window), cx);
+            apply_system_theme(window, cx);
             cx.notify();
         });
 
@@ -124,12 +126,30 @@ impl Render for App {
     }
 }
 
+/// Picks light or dark from the system setting, then installs the matching macOS Classic theme.
+fn apply_system_theme(window: &mut Window, cx: &mut gpui_kit::App) {
+    Theme::sync_system_appearance(Some(window), cx);
+
+    let name = if cx.theme().mode.is_dark() {
+        "macOS Classic Dark"
+    } else {
+        "macOS Classic Light"
+    };
+    let theme = ThemeRegistry::global(cx).themes().get(name).cloned();
+    if let Some(theme) = theme {
+        Theme::update(cx, |current| current.apply_config(&theme));
+    }
+}
+
 fn main() {
     gpui_kit::application()
         .with_assets(gpui_kit::assets::Assets)
         .run(|cx| {
             // Must be called before using any GPUI Kit component.
             gpui_kit::init(cx);
+            ThemeRegistry::global_mut(cx)
+                .load_themes_from_str(MACOS_CLASSIC_THEMES)
+                .expect("failed to load macOS Classic themes");
 
             // Opens a window whose content is wrapped in a `Root`, so dialogs,
             // sheets and notifications work.

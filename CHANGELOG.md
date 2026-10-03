@@ -13,9 +13,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Custom window title bar (`TitleBar`) with window controls, since WSLg draws no window frame.
 - Light/dark theme follows the system setting and updates live
   (`Theme::sync_system_appearance` plus `observe_window_appearance`).
+- "macOS Classic Light" and "macOS Classic Dark" themes (`themes/macos-classic.json`, by huacnlee,
+  from gpui-kit), embedded in the binary and chosen by the system light/dark setting.
 - README with run instructions, the `libxkbcommon-x11-dev` build dependency, and WSL notes
   (oversized mouse cursor at 200% display scaling and how to fix it).
 - gpui-kit agent skills (`gpui-kit`, `gpui-kit-design-guides`) installed in `.agents/skills/`
   and symlinked from `.claude/skills/`.
 - `CLAUDE.md` with project instructions for Claude Code: reply language, skills usage,
   build notes, and WSL environment notes.
+
+[Unreleased]: https://github.com/amsokol/gpui-app/commits/main
