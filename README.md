@@ -16,6 +16,18 @@ Linking needs the X11 xkbcommon development files. On Debian/Ubuntu:
 sudo apt install libxkbcommon-x11-dev
 ```
 
+## Window state
+
+The window size, position and maximized state are saved when the window closes and restored on the
+next start:
+
+- Linux: `~/.config/gpui-app/window.yaml` (`$XDG_CONFIG_HOME` is honored)
+- macOS: `~/Library/Application Support/gpui-app/window.yaml`
+- Windows: `%LOCALAPPDATA%\gpui-app\window.yaml`
+
+Delete the file to go back to the default window. Wayland compositors (including WSLg) choose the
+window position themselves, so there only the size and the maximized state are restored.
+
 ## WSL notes
 
 ### Mouse cursor is too large

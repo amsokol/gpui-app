@@ -5,4 +5,7 @@ edition = "2024"
 rust-version = "1.99.0"
 
 [dependencies]
+dirs = "7.0.0"
 gpui-kit = "0.7.0"
+serde = { version = "1.0.229", features = ["derive"] }
+yaml_serde = "0.10.7"
