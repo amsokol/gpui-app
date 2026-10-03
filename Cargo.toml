@@ -6,7 +6,9 @@ rust-version = "1.99.0"
 
 [dependencies]
 dirs = "7.0.0"
+futures-lite = "2.6.1"
 gpui-kit = "0.7.0"
+mundy = { version = "0.2.3", default-features = false, features = ["async-io", "accent-color"] }
 serde = { version = "1.0.229", features = ["derive"] }
 yaml_serde = "0.10.7"
 

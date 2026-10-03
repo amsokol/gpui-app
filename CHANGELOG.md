@@ -19,6 +19,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   in the per-user local config directory (`dirs` crate): `~/.config/gpui-app/window.yaml` on Linux,
   `~/Library/Application Support/gpui-app/window.yaml` on macOS,
   `%LOCALAPPDATA%\gpui-app\window.yaml` on Windows.
+- Controls use the system accent color instead of the blue built into the macOS Classic themes
+  (`mundy` crate: XDG portal or Yaru theme on Linux, `UISettings` on Windows, `NSColor` on macOS).
+  The theme keeps its blue when the system reports no accent color, as on WSL. Set
+  `GPUI_APP_ACCENT=#rrggbb` to force a color for trying it out.
 - No flash of the wrong theme at startup on Linux: Wayland reports the system light/dark mode only
   after startup, so the window is opened once the mode is known (waits up to 100 ms), and later
   system events are applied after a short pause because GPUI first reports a bogus "light".

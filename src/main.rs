@@ -12,8 +12,12 @@ use gpui_kit::{
     div,
 };
 
-use std::time::{Duration, Instant};
+use std::{
+    rc::Rc,
+    time::{Duration, Instant},
+};
 
+mod accent;
 mod window_state;
 
 use window_state::WindowState;
@@ -193,6 +197,12 @@ fn apply_theme(dark: bool, cx: &mut gpui_kit::App) {
     };
     let theme = ThemeRegistry::global(cx).themes().get(name).cloned();
     if let Some(theme) = theme {
+        // Swap the theme's built-in blue for the system accent color, when there is one.
+        let mut config = (*theme).clone();
+        if let Some(accent) = accent::current(cx) {
+            accent::tint(&mut config, accent);
+        }
+        let theme = Rc::new(config);
         Theme::update(cx, |current| current.apply_config(&theme));
     }
 }
@@ -245,8 +255,12 @@ fn main() {
             cx.spawn(async move |cx| {
                 let dark = system_is_dark(cx).await;
                 cx.update(|cx| {
+                    accent::init(cx);
                     apply_theme(dark, cx);
                     open_main_window(cx);
+
+                    // Follow accent color changes made in the system settings.
+                    accent::watch(cx, |cx| apply_theme(cx.theme().mode.is_dark(), cx));
                 });
             })
             .detach();

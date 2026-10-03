@@ -75,6 +75,15 @@ gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
 
 Use `'default'` to go back to light. This affects every GTK/Wayland app in the distro.
 
+### Accent color
+
+Buttons, switches, focus rings and selections use the system accent color. WSL usually reports none
+(there is no desktop session or portal), so the theme's blue stays. To try another color:
+
+```sh
+GPUI_APP_ACCENT='#e95420' cargo run
+```
+
 ### Don't use the X11 backend to work around it
 
 Running with `WAYLAND_DISPLAY=` gives a normal cursor, but WSLg's X11 windows
